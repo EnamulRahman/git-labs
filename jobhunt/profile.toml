@@ -1,0 +1,83 @@
+# Search profile derived from the CV. Edit freely — this drives what gets searched and how jobs are ranked.
+
+[search]
+location = "Birmingham"
+radius_miles = 30          # ~60 min commute (Indeed preference)
+max_days_old = 14
+min_salary = 35000         # roles advertising a max below this are penalised, not dropped
+include_remote = true      # also query the Remotive board for UK-friendly remote roles
+
+# Stepping-stone and junior target roles. Each is sent to every board.
+queries = [
+  "junior devops engineer",
+  "junior cloud engineer",
+  "cloud support engineer",
+  "cloud operations engineer",
+  "junior platform engineer",
+  "infrastructure engineer",
+  "aws engineer",
+  "azure engineer",
+  "devops engineer",
+  "systems engineer",
+  "linux systems administrator",
+  "3rd line support engineer",
+  "site reliability engineer",
+  "technical support engineer aws",
+]
+
+[scoring]
+# Words in the job title that signal a good fit.
+good_titles = [
+  "devops", "cloud", "platform", "infrastructure", "aws", "azure", "sre",
+  "site reliability", "systems engineer", "sysops", "linux", "3rd line", "third line",
+  "operations engineer",
+]
+# Seniority hints. Positive = good step; negative = probably out of reach right now.
+seniority = { junior = 15, graduate = 10, associate = 10, entry = 10, trainee = 5, "mid" = 3, senior = -25, lead = -20, principal = -40, staff = -30, head = -40, manager = -20, architect = -25, director = -50 }
+# Phrases that usually mean the job isn't a fit at all.
+exclude = ["dv clearance", "developed vetting", "1st line", "first line", "helpdesk", "service desk analyst", "field engineer", "data centre technician", "sales", "recruitment consultant"]
+# Penalise ads asking for this many years or more.
+max_years_experience = 5
+
+# CV skills and how much each match counts. Things you've built with weigh most.
+[skills]
+aws = 4
+terraform = 5
+docker = 4
+"github actions" = 4
+"ci/cd" = 4
+"infrastructure as code" = 4
+ecs = 3
+fargate = 3
+vpc = 2
+iam = 2
+cloudwatch = 2
+"route 53" = 2
+linux = 3
+bash = 2
+git = 2
+yaml = 1
+oidc = 1
+networking = 2
+dns = 1
+"tcp/ip" = 1
+vlan = 1
+"windows server" = 2
+vmware = 2
+"hyper-v" = 2
+azure = 2
+"entra id" = 2
+"active directory" = 2
+intune = 1
+"microsoft 365" = 1
+"sccm" = 1
+veeam = 1
+itil = 1
+"incident" = 1
+"root cause" = 1
+# Common asks you could pick up quickly — small weight so they still help.
+kubernetes = 1
+ansible = 1
+python = 1
+prometheus = 1
+grafana = 1

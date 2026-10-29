@@ -1,0 +1,60 @@
+name: jobhunt
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # 06:17 UTC daily
+  workflow_dispatch:
+  push:
+    paths: ["jobhunt/**", ".github/workflows/jobhunt.yml"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: jobhunt
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m unittest -v
+
+  search:
+    needs: test
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: jobhunt
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Restore seen-jobs history
+        uses: actions/cache/restore@v4
+        with:
+          path: jobhunt/output/seen.json
+          key: jobhunt-seen-${{ github.run_id }}
+          restore-keys: jobhunt-seen-
+      - name: Search boards
+        env:
+          REED_API_KEY: ${{ secrets.REED_API_KEY }}
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+        run: |
+          python -m jobhunt
+          cat output/report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Save seen-jobs history
+        uses: actions/cache/save@v4
+        with:
+          path: jobhunt/output/seen.json
+          key: jobhunt-seen-${{ github.run_id }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: job-report
+          path: |
+            jobhunt/output/report.md
+            jobhunt/output/jobs.csv
+          retention-days: 30
