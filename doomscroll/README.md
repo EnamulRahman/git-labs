@@ -15,11 +15,25 @@ python3 -m http.server 8000
 
 (Opening `index.html` directly also works in most browsers.)
 
+## Choosing your content
+
+You decide what's in the feed, in two places:
+
+1. **`config.js`: the default feed on every device.** Edit it and push. It sets:
+   - `sources`: turn dev.to, Hacker News and your own picks on or off
+   - `hnMinPoints`: hide Hacker News stories with fewer points than this
+   - `topics`: the topic chips. Each one has a `devto` tag and/or an `hn` search query, and can be `enabled: false`
+   - `muteWords`: hide any post mentioning these words
+   - `picks`: your own links, pinned to the top, each with an optional note and topic tags
+2. **⚙ Settings in the app (or press `,`): changes on one device.** Make the same changes from your phone.
+   They're saved on that device only. Use **Export config** to copy them as a new `config.js`, paste that into the repo and push to make them everyone's default.
+   **Reset to config.js** discards that device's changes.
+
 ## Features
 
 - One post per screen, snap scrolling, with more posts loading as you go
-- Topic chips: All, Kubernetes, Docker, Terraform, CI/CD, AWS, SRE, Observability, Linux
-- Mixes dev.to articles with Hacker News stories, and drops duplicates
+- Topic chips that you define. "All" mixes every enabled topic
+- Mixes your pinned picks, dev.to articles and Hacker News stories, drops duplicates and hides muted words
 - Save posts for later (kept in your browser's localStorage)
 - Light and dark themes that follow your OS
 
@@ -33,3 +47,4 @@ python3 -m http.server 8000
 | `c` | open comments |
 | `s` | save / unsave |
 | `b` | toggle saved view |
+| `,` | open settings |
