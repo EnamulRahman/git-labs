@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>OpsScroll</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">ops<span>scroll</span></div>
+    <nav class="chips" id="chips" aria-label="Topics"></nav>
+    <button class="icon-btn" id="savedToggle" aria-pressed="false" title="Saved posts (s)">★ <span id="savedCount">0</span></button>
+  </header>
+
+  <main id="feed" class="feed" tabindex="0" aria-live="polite"></main>
+
+  <div class="hint" id="hint">↑ ↓ / j k to scroll · o open · s save · b saved</div>
+
+  <template id="cardTpl">
+    <article class="card">
+      <div class="card-inner">
+        <div class="meta">
+          <span class="source"></span>
+          <span class="dot">·</span>
+          <span class="age"></span>
+        </div>
+        <img class="cover" alt="" loading="lazy" />
+        <h2 class="title"></h2>
+        <p class="desc"></p>
+        <ul class="tags"></ul>
+        <div class="stats"></div>
+        <div class="actions">
+          <a class="btn primary open" target="_blank" rel="noopener noreferrer">Read →</a>
+          <a class="btn discuss" target="_blank" rel="noopener noreferrer">Comments</a>
+          <button class="btn save" type="button">☆ Save</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
